@@ -1,0 +1,19 @@
+{
+  "name": "veff9",
+  "version": "1.0.0",
+  "description": "Veff9 Project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "browser-sync start --server --files main.js **/*.js styles.css index.html",
+    "copy:html": "cpy ./*.html ./build/",
+    "copy:js": "cpy ./*.js ./build/",
+    "build": "concurrently npm:copy:*"
+  },
+  "author": "dan",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "concurrently": "^8.2.1",
+    "cpy-cli": "^5.0.0"
+  }
+}
