@@ -33,8 +33,45 @@ export async function sleep(ms) {
  *  kom upp.
  */
 export async function searchLaunches(query) {
-  /* TODO útfæra */
+  const url = new URL('launch', API_URL);
+  url.searchParams.set('mode', 'list');
+  url.searchParams.set('search', query);
+
+  // await sleep(1000);
+
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (e) {
+    console.error('Villa við að sækja gögn', e);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('Fékk ekki 200 status frá API', response);
+    return null;
+  }
+
+  // Smá varkárni: gerum ekki ráð fyrir að API skili alltaf
+  // réttum gögnum, en `json()` skilar alltaf *öllu* með `any`
+  // týpunni sem er of víðtæk til að vera gagnleg.
+  // (en hvað ef gögnin eru ekki eins og týpan??)
+  /** @type {LaunchSearchResults | null} */
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('Villa við að lesa gögn', e);
+    return null;
+  }
+
+  /** @type {Launch[]} */
+  const results = data?.results ?? [];
+
+  return results;
 }
+
 
 /**
  * Skilar stöku geimskoti eftir auðkenni eða `null` ef ekkert fannst.
@@ -42,5 +79,30 @@ export async function searchLaunches(query) {
  * @returns {Promise<LaunchDetail | null>} Geimskot.
  */
 export async function getLaunch(id) {
-  /* TODO útfæra */
+  const url = new URL(`launch/${id}`, API_URL);
+
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (e) {
+    console.error('Villa við að sækja gögn um geimskot', e);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('Fékk ekki 200 status frá API fyrir geimskot', response);
+    return null;
+  }
+
+  /** @type {LaunchDetail | null} */
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('Villa við að lesa gögn um geimskot', e);
+    return null;
+  }
+
+  return data;
 }
