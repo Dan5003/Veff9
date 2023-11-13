@@ -16,6 +16,7 @@ async function onSearch(e) {
  * leitarniðurstöðum ef `query` er gefið.
  */
 function route() {
+  const params = new URLSearchParams(window.location.search)
   /* TODO athuga hvaða síðu á að birta og birta */
 }
 
