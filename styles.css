@@ -98,7 +98,7 @@ form.search {
 }
 
 .result .status::before {
-  content: '🪐';
+  content: '❔';
   padding-right: calc(var(--spacing) / 4);
 }
 
