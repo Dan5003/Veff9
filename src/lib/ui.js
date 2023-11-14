@@ -11,10 +11,10 @@ export function renderSearchForm(searchHandler, query = undefined) {
   /* TODO útfæra */
   const search = el('input', {
     type: 'search',
-    placeholder: 'Leitarorð',
+    placeholder: 'Keyword...',
     value: query ?? '',
   });
-  const button = el('button', {}, 'Leita');
+  const button = el('button', {}, 'Search');
 
   const container = el('form', { class: 'search' }, search, button);
   container.addEventListener('submit', searchHandler);
@@ -30,7 +30,7 @@ function setLoading(parentElement, searchForm = undefined) {
   let loadingElement = parentElement.querySelector('.loading');
 
   if (!loadingElement) {
-    loadingElement = el('div', { class: 'loading' }, 'Sæki gögn...');
+    loadingElement = el('div', { class: 'loading' }, 'Fetching data...');
     parentElement.appendChild(loadingElement);
   }
 
@@ -78,12 +78,12 @@ function createSearchResults(results, query) {
 
   if (!results) {
     // Error state
-    const item = el('li', { class: 'result' }, 'Villa við að sækja gögn.');
+    const item = el('li', { class: 'result' }, 'Error occured while retrieving data.');
     list.appendChild(item);
   } else {
     // Empty state
     if (results.length === 0) {
-      const item = el('li', { class: 'result' }, 'Ekkert fannst.');
+      const item = el('li', { class: 'result' }, 'Nothing found.');
       list.appendChild(item);
     }
 
@@ -98,7 +98,7 @@ function createSearchResults(results, query) {
           { class: `status ${result.status.abbrev}` },
           result.status.name,
         ),
-        el('span', { class: 'mission' }, result.mission ?? '*Ekkert heiti*'),
+        el('span', { class: 'mission' }, result.mission ?? '*No Name*'),
       );
       list.appendChild(item);
     }
@@ -107,7 +107,7 @@ function createSearchResults(results, query) {
   return el(
     'div',
     { class: 'results' },
-    el('h2', {}, `Leitarniðurstöður fyrir „${query}“`),
+    el('h2', {}, `Search results for „${query}“`),
     list,
   );
 }
@@ -122,7 +122,7 @@ export async function searchAndRender(parentElement, searchForm, query) {
   const mainElement = parentElement.querySelector('main');
 
   if (!mainElement) {
-    console.warn('fann ekki <main> element');
+    console.warn('Found no <main> element');
     return;
   }
 
@@ -152,7 +152,7 @@ export function renderFrontpage(
   searchHandler,
   query = undefined,
 ) {
-  const heading = el('h1', {}, 'Geimskotaleitin 🚀');
+  const heading = el('h1', {}, 'Space Shuttle info 📡');
   const searchForm = renderSearchForm(searchHandler, query);
   const container = el('main', {}, heading, searchForm);
   parentElement.appendChild(container);
@@ -174,7 +174,7 @@ export async function renderDetails(parentElement, id) {
   const backElement = el(
     'div',
     { class: 'back' },
-    el('a', { href: '/' }, 'Til baka'),
+    el('a', { href: '/' }, 'go back'),
   );
 
   parentElement.appendChild(container);

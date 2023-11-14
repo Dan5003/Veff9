@@ -93,7 +93,7 @@ form.search {
 }
 
 .result .mission::before {
-  content: 'Geimferð: ';
+  content: 'Shuttle type: ';
   font-weight: bold;
 }
 
@@ -103,11 +103,11 @@ form.search {
 }
 
 .result .status.Success::before {
-  content: '🚀';
+  content: '✔';
 }
 
 .result .status.Failure::before {
-  content: 'ϻ';
+  content: '❌';
 }
 
 .result .status.TBD::before {
